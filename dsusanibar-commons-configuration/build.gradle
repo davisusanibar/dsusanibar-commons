@@ -1,0 +1,8 @@
+group='com.david.dali.susanibar.arce.commons.configuration'
+version = '1.0.0.RC1'
+
+jar {
+	baseName = 'commons-configuration'
+}
+
+artifactoryPublish.skip=false;

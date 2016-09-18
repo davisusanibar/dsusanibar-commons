@@ -1,0 +1,13 @@
+rootProject.name = 'dsusanibar-commons-project'
+
+include 'dsusanibar-commons-configuration'
+//include 'dsusanibar-commons-configuration', 'dsusanibar-commons-database'
+
+project(":dsusanibar-commons-configuration").name = "commons-configuration"
+//project(":dsusanibar-commons-database").name = "commons-database"
+
+/* In case you are working with standar project names this could be the best option:
+include 'xxx', 'yyy'
+rootProject.children.each { it.name = rootProject.name + it.name }
+*/
+

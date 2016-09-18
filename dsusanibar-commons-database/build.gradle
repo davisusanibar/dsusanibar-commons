@@ -1,0 +1,8 @@
+group='com.david.dali.susanibar.arce.commons.database'
+version = '1.0.0.RC1'
+
+jar {
+	baseName = 'commons-database'
+}
+
+artifactoryPublish.skip=false;

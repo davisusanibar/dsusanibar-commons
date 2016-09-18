@@ -1,0 +1,94 @@
+group='com.david.dali.susanibar.arce.commons'
+version = '1.0.0.RC1'
+
+buildscript {
+	ext {
+		springBootVersion = '1.4.0.RELEASE'
+		repoKeyName = 'dsusanibar-commons'
+	}
+	repositories {
+		maven {
+			url 'http://localhost:8081/artifactory/plugins-release'
+		}
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.4.0"
+	}
+}
+
+task demoTask {
+	println 'print demo task'
+}
+
+allprojects {
+	apply plugin: 'com.jfrog.artifactory'
+	apply plugin: 'java'
+	apply plugin: 'eclipse'
+	apply plugin: 'spring-boot'
+	apply plugin: 'maven-publish'
+	
+	dependencies {
+		compile('org.springframework.boot:spring-boot-starter-web')
+		testCompile('org.springframework.boot:spring-boot-starter-test')
+	}	
+
+	sourceCompatibility = 1.8
+	targetCompatibility = 1.8	
+
+	task javadocJar(type: Jar, dependsOn: 'javadoc'){
+		baseName='gradleartifact'
+		from javadoc.destinationDir
+		classifier='javadoc'
+	}
+	
+	task javasourceJar(type: Jar, dependsOn: 'classes'){
+		baseName='gradleartifact'
+		from sourceSets.main.allSource
+		classifier='sources'
+	}
+
+	repositories {
+  		maven {
+	        url 'http://localhost:8081/artifactory/libs-release'
+	        artifactUrls "http://localhost:8081/artifactory/libs-release"
+		}
+	}
+
+	//publishing:
+	publishing {
+		publications {
+			artifactoryPublishOnDemand(MavenPublication){
+				from components.java
+				artifact (javasourceJar) {
+				}
+			}
+		}
+	}
+	
+	artifactory {
+	    contextUrl = "http://localhost:8081/artifactory"
+	    publish {
+	        repository {
+	            repoKey = "${repoKeyName}"
+	            username = "${artifactory_user}"
+	            password = "${artifactory_password}"
+	            maven = true            
+	        }
+	        
+	        defaults {
+	        	publications ('artifactoryPublishOnDemand')      	
+	        }
+	    }
+	    resolve {
+	        repository {
+	            repoKey = 'libs-release'
+	            maven = true           
+	        }
+	    }
+	}	
+}
+
+subprojects {
+
+}
