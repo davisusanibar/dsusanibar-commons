@@ -1,5 +1,6 @@
 group='com.david.dali.susanibar.arce.commons'
 version = '1.0.0.RC1'
+artifactoryPublish.skip=false;
 
 buildscript {
 	ext {
